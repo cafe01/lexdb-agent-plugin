@@ -1,0 +1,11 @@
+{
+  "name": "lexdb-agent-plugin",
+  "plugins": [
+    {
+      "name": "lexdb",
+      "source": { "source": "local", "path": "./plugins/lexdb" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_USE" },
+      "category": "Productivity"
+    }
+  ]
+}

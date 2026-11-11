@@ -1,0 +1,12 @@
+{
+  "name": "lexdb-agent-plugin",
+  "description": "Plugin LexDB com MCP remoto e skills de pesquisa jurisprudencial para agentes.",
+  "owner": { "name": "Café" },
+  "plugins": [
+    {
+      "name": "lexdb",
+      "source": "./plugins/lexdb",
+      "description": "Pesquisa jurisprudencial com acesso ao LexDB e método de leitura e citação."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+# Validação da prévia 0.1.0
+
+11/11/2026, Mac. Produto/desenho: `LexDB/specs/028-agent-plugin` no portfólio privado.
+
+## Demonstrado
+
+- `npm test`: dois testes passaram, cobrindo recusa de destino inseguro e reconfiguração sem alteração em entrada inválida.
+- Claude Code 2.1.246: `claude plugin validate --strict .` e `claude plugin validate --strict plugins/lexdb` passaram. Marketplace local adicionado e `lexdb@lexdb-agent-plugin` instalado no escopo do usuário. `claude plugin details` descobriu as duas skills e o MCP `lexdb`, sem hooks ou agentes auxiliares.
+- Codex CLI 0.162.1: marketplace local adicionado e `codex plugin add lexdb@lexdb-agent-plugin --json` instalou e habilitou a versão0.1.0. `plugin/read` do app-server reconheceu ambas as skills habilitadas, ícone e MCP `lexdb`. Isso demonstra resolução do pacote; não demonstra execução das ferramentas pelo modelo.
+- Ambas as skills passaram no `quick_validate.py` do skill-creator. Instruções revistas contra as assinaturas reais e exemplos de consulta, leitura pendente e cota; o validador de frontmatter não avalia qualidade de pesquisa jurídica.
+- Bancada isolada Compose `lexdb028`, Node24/PostgreSQL17, com dez documentos de demonstração. Quick Tunnel Cloudflare2026.10.7 expôs a porta4692 por HTTPS. Readiness e metadados OAuth responderam200 na origem pública; o catálogo de autorização usa a mesma origem do pacote.
+- `claude mcp login --no-browser plugin:lexdb:lexdb` iniciou OAuth usando o MCP do plugin instalado. Entrada por link entregue ao Mailpit8625, consentimento pelo HTTPS e callback do Claude concluídos. Navegador mostrou “Authentication successful”; CLI confirmou autenticação. `claude mcp get plugin:lexdb:lexdb` mostrou `Connected` e o endereço HTTPS do pacote, sem configuração manual de outro MCP.
+- Cliente SDK MCP independente leu o mesmo endpoint declarado, registrou cliente, recebeu consentimento e executou catálogo, uma busca por `trabalho` e leitura. Quatro bases na fixture; documento `0007c055-d9bf-554f-a527-d05741966813`, TRT17 `pje1_49122208`, 27.579 caracteres retornados. Essa prova é do serviço HTTPS, não de uma pesquisa conduzida pelo modelo Claude ou ChatGPT.
+
+## Ainda não demonstrado
+
+- Instalação por Git remoto e descoberta após clone limpo: registrar o resultado após o primeiro push.
+- Chamada MCP pelo pacote dentro de uma conversa Codex, ChatGPT web/desktop ou Claude web/desktop. Claude Code está sem acesso ao modelo na conta disponível; não foi contratada assinatura para a prova. O navegador ChatGPT estava sem login.
+- Uma pesquisa jurídica real conduzida pelas skills nos dois produtos, publicação em diretório, domínio/hospedagem de produção ou cobertura nacional.
+
+O túnel teve uma desconexão transitória que produziu502; reconectou e a repetição do OAuth funcionou. Um Quick Tunnel não constitui disponibilidade de produção. Logs, configuração privada e capturas ficam fora deste repositório em `.build/lexdb028/` do portfólio. A instância não contém autos privados nem acessa o banco de mineração.

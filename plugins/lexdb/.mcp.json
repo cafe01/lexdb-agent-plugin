@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "lexdb": {
+      "type": "http",
+      "url": "https://organizer-guided-von-entrance.trycloudflare.com/mcp"
+    }
+  }
+}
