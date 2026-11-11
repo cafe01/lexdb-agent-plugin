@@ -5,39 +5,51 @@ description: Pesquise jurisprudência brasileira pelo LexDB para uma questão ju
 
 # Pesquisar jurisprudência com o LexDB
 
-Use as ferramentas deste servidor LexDB, identificadas pelo host; não suponha um prefixo fixo. O contrato atual é `list_jurisprudence_filters`, `search_jurisprudence` e `get_jurisprudence_document`. Não use nomes propostos como `catalogo`, `buscar` ou `ler` como se fossem ferramentas instaladas.
+Use `catalogo`, `buscar` e `ler` do servidor LexDB identificado pelo host; o prefixo varia. Não invente ferramentas adicionais.
 
-## Da pergunta à pesquisa
+## Da questão ao recorte
 
-Identifique a questão que a jurisprudência precisa resolver, o tribunal relevante, a posição processual e eventual data de corte. Parta do encargo e do material que o usuário trouxe. Se faltar um dado que muda a pesquisa, pergunte; não exija um processo completo para uma pergunta jurídica autônoma. Envie à busca somente termos e filtros necessários, sem reproduzir autos ou dados pessoais desnecessários.
+Identifique a questão jurídica, o tribunal relevante, a posição processual e eventual data de corte. Parta do encargo e do material recebido; pergunte somente pelo dado ausente que muda a pesquisa. Envie termos e filtros necessários, sem reproduzir autos ou dados pessoais desnecessários.
 
-Consulte `list_jurisprudence_filters({})` para conhecer as bases, os períodos observados e os filtros disponíveis. Cada base informa tribunal, fonte, tipos, `data_observada` (extremos e significado), `filtros_juridicos` e suporte a `processo`. Os extremos não certificam cobertura contínua nem disponibilidade histórica. Confira `bases_aplicadas` em cada resposta: um filtro pode restringir a pesquisa às bases que o suportam. Se nenhuma base aceita a combinação, a entrada é inválida, não uma busca sem candidatos. Um catálogo parcial limita o que uma busca vazia permite concluir. Não confunda uma base ausente com inexistência de jurisprudência do tribunal.
+Chame `catalogo({})`. Cada elemento de `bases` informa tribunal, base, fonte, tipos, `data_observada` (`de`, `ate`, `significado`), `filtros_juridicos` (`naturezas`, `classes` quando habilitados) e `busca_por_processo`. Use esses valores. Os extremos não certificam cobertura contínua nem disponibilidade histórica; a data pode representar juntada, publicação, assinatura ou julgamento.
 
-Comece por termos que admitam as formulações pertinentes à questão. Refine com o conceito decisivo, matéria e classe quando o catálogo os habilitar. Explore decisões contrárias e fundamentos que mudem o resultado; depois amplie o recorte quando isso servir à pergunta. Não aplique uma sequência fixa de chamadas nem execute uma lista de pesquisas sem examinar os resultados.
+## Buscar
 
-## Ferramentas e critérios
+`buscar({texto?, filtros?, ordem?, limite?, cursor?})` aceita:
 
-`search_jurisprudence` aceita `q`, `tribunal`, `base`, `tipo`, `natureza`, `classe`, `from`, `to`, `processo`, `ref_base`, `ref_id`, `ordem`, `limit` e `cursor`.
+- `filtros.tribunais`, `bases`, `tipos`, `naturezas`, `classes`: listas de valores do catálogo. Alternativas dentro da dimensão; dimensões diferentes se somam. Não há filtro por papel do trecho.
+- `filtros.periodo: {de?, ate?}`: datas inclusivas AAAA-MM-DD pela data de referência da base.
+- `filtros.referencia: {processo}`: número CNJ, com ou sem pontuação, nas bases que admitem esse modo; um processo pode ter vários atos.
+- Ou `filtros.referencia: {base, id_nativo}`: ato nativo exato. Não combine as duas modalidades. O ID nativo não é o UUID de leitura.
+- `texto`: expressão lexical de até300 caracteres. E implícito exige termos no mesmo bloco; `OR` admite alternativas; aspas exigem ordem/proximidade; parênteses agrupam e hífen exclui. A normalização trata acentos e flexões, sem garantir grafia literal. Exija ao menos um termo positivo pesquisável.
+- Texto é opcional: omita para percorrer filtros, período ou referência por data. Informe ao menos um critério; uma chamada vazia é inválida.
+- `ordem`: `relevancia` exige texto e é seu padrão; sem texto, o padrão é `data`.
+- `limite`: de1 a100, padrão20.
 
-- `tribunal`, `base`, `tipo`, `natureza` e `classe` são arrays de strings, com valores do catálogo. Não há filtro `onde` ou filtro público por papel do trecho.
-- Datas são inclusivas, em `AAAA-MM-DD`, pela data de referência da fonte. Ela não é necessariamente a data do julgamento.
-- `q` combina termos com E no mesmo bloco. `OR` admite alternativas; aspas exigem ordem e proximidade da expressão; parênteses agrupam; hífen exclui termo. A normalização trata português, acentos e flexões, sem garantir identidade literal.
-- Exemplo de forma: `{"q":"(usura OR agiotagem) \"ônus da prova\"","tribunal":["TJES"],"limit":10}`. Ajuste o recorte à pergunta; o exemplo não impõe tema ou tribunal.
-- `q` é opcional: omita para explorar por filtros, período ou referência, mas informe ao menos um desses critérios. Exemplo: `{"tribunal":["TJES"],"ordem":"data","limit":10}`. Não use uma chamada vazia.
-- `ordem` é `relevancia` (exige texto; padrão com `q`) ou `data` (padrão sem texto). `limit` vai de 1 a 100, padrão 20. Cursor nulo encerra a lista. Use `next_cursor` como `cursor` para continuar com os mesmos critérios; mudar termos, filtros, ordem ou limite inicia outra consulta.
-- Para um ato conhecido, combine `ref_base` e `ref_id`. Para um processo, use `processo` com CNJ, com ou sem pontuação, somente nas bases que oferecem essa capacidade; ele pode ter vários atos. Não combine `processo` com a referência nativa. Não use um ID nativo no lugar do UUID de leitura.
+Exemplo de forma, ajustável ao catálogo e à pergunta:
 
-Uma busca retorna documentos em `items`, as bases aplicadas e `next_cursor`. O trecho ajuda a escolher candidatos. O papel do trecho e a posição no resultado não certificam que o tribunal acolheu a passagem ou que ela é a decisão mais forte para o caso.
+```json
+{"texto":"(usura OR agiotagem) \"ônus da prova\"","filtros":{"tribunais":["TJES"],"naturezas":["cível"]},"limite":10}
+```
 
-## Da leitura à referência
+Para explorar sem texto: `{"filtros":{"tribunais":["TJES"]},"ordem":"data","limite":10}`.
 
-Abra os candidatos úteis com `get_jurisprudence_document({"id":"UUID recebido"})`. A íntegra vem no conteúdo textual da resposta; os metadados e a fonte vêm também nos dados estruturados. Leia os fundamentos relevantes, o contexto e o desfecho antes de apoiar uma afirmação no julgado. Distinga fundamento adotado, alegação de parte, precedente transcrito e voto vencido.
+A resposta contém `itens`, `bases_aplicadas` e `proximo_cursor`. Confira as bases que participaram: um filtro pode restringir a pesquisa às que o suportam; nenhuma base compatível é erro de entrada, não ausência de precedentes. Catálogo parcial limita conclusões de uma busca vazia.
 
-Na entrega, explique por que cada decisão serve à questão e quais fatos ou distinções limitam sua aplicação. Preserve tribunal, processo, data e identificação do ato conforme recebidos. Use os links devolvidos pelo serviço e identifique quando a fonte é uma consulta em vez do documento direto. Se não houver URL específica, apresente os identificadores disponíveis; não fabrique endereço, relator, número ou citação. Para conferir uma citação recebida, compare os dados e a afirmação com a leitura, não apenas com a coincidência do processo.
+Para continuar, envie `proximo_cursor` como `cursor` com todos os critérios inalterados, inclusive limite. Nulo encerra a lista. Mudar critérios começa outra busca, sem cursor.
 
-## Estados que mudam a conclusão
+Examine resultados antes de reformular; refine com o vocabulário encontrado e investigue fundamentos contrários. Não execute uma sequência fixa sem ler os retornos. O `trecho`, seu `papel` e a posição no resultado ajudam a selecionar candidatos, sem certificar que o tribunal adotou a passagem. Ela pode ser alegação, precedente citado ou voto vencido.
 
-- `pending` significa leitura em preparação: use os metadados e a fonte disponíveis, mas não atribua fundamentos a uma íntegra que não foi lida.
-- Sem candidatos, reformule ou amplie o recorte quando houver razão. Relate o que foi pesquisado; não conclua que nenhum precedente existe.
-- Entrada inválida pede correção da chamada; indisponibilidade pede relatar a falha. Não repita automaticamente uma série de buscas.
-- Cota esgotada impede novas buscas, mas catálogo e leitura continuam disponíveis. Cada busca ou página por cursor conta; não prometa que uma pesquisa inteira custa uma única busca. Use o link de planos retornado pelo serviço e deixe a decisão de assinatura com o usuário.
+## Ler e citar
+
+Abra candidatos com `ler({"id":"UUID de itens[].id"})`. Os dados estruturados contêm `estado`, `metadados`, `fonte` quando conhecida e `conteudo` textual quando pronto. O envelope padrão MCP é `structuredContent`; o conteúdo textual da resposta também oferece a leitura renderizada.
+
+`estado: "pronto"` permite ler o conteúdo; `estado: "em_preparacao"` não contém íntegra para leitura. A referência pode estar disponível durante a preparação, mas não atribua fundamentos ao texto não lido. Itens de busca também informam estado e `significado_data`.
+
+Leia fundamentos, fatos e desfecho antes de citar. Distinga fundamento adotado, alegação de parte, transcrição e voto vencido. Explique aplicação e limitações em relação ao caso. Preserve os identificadores recebidos e diferencie link do documento de consulta oficial. Sem endereço específico, apresente os identificadores disponíveis; não invente URL, relator, data ou teor. Encontrar um processo não confirma a exatidão de uma citação.
+
+## Estados da pesquisa e cota
+
+Sem candidatos, reformule ou amplie quando houver razão; relate o recorte, sem concluir inexistência de jurisprudência. Entrada inválida pede correção; indisponibilidade pede informar a falha, sem repetição automática de uma série de chamadas.
+
+Cada busca ou página por cursor conta. `catalogo` e `ler` são livres. Ao esgotar a cota, apresente o link de planos recebido e deixe a decisão com o usuário; não contorne o limite criando contas ou repetindo chamadas.

@@ -37,3 +37,9 @@ Em11/11/2026, por orientação explícita de Café, o repositório passou a púb
 As skills passaram a detalhar catálogo por base, significado das datas observadas, bases aplicadas, exploração sem texto, defaults de ordem/limite, exclusão mútua das referências e término da paginação. A conexão reconhece o schema antigo (offset/filtros escalares) como desatualizado. Ambas passaram no quick_validate.py; três testes do pacote e validação estrita do marketplace passaram.
 
 A versão local0.1.1-dev foi regenerada e instalada nos CLIs Claude e Codex com destino4492, acervo TJES de desenvolvimento. O app-server reconheceu duas skills habilitadas e MCP. Em sessão efêmera de verificação, o runtime Codex autenticado executou catálogo, busca sem texto, texto/refinamento, referência exata, segunda página sem duplicação e leitura ready com fonte (14.465 caracteres). Isso verifica chamadas do runtime, sem alegar avaliação de uma pesquisa jurídica conduzida pelo modelo. A conversa previamente aberta conserva ferramentas em memória até recarga do host.
+
+## Contrato em português — 0.2.0
+
+Por direção de Café em11/11/2026, o MCP passa a catalogo/buscar/ler, com texto/filtros/ordem/limite/cursor e respostas itens/proximo_cursor/estado/metadados/fonte/conteudo. As duas skills e o README foram alinhados sem aliases. Três testes do pacote, validadores das skills e marketplace estrito passaram. A versão local0.2.0-dev foi instalada no Codex e Claude Code; o app-server confirmou as skills habilitadas.
+
+Runtime Codex em sessão efêmera autenticada na4492 reconheceu somente as três ferramentas novas e executou catálogo, busca com/sem texto, cursor, referência e leitura pronta com14.183 caracteres. A prova não é avaliação de pesquisa jurídica pelo modelo. A conversa já aberta exige recarga do aplicativo. O perfil local funciona; a publicação deste código não ativa um serviço MCP público de produção.
