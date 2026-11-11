@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test test/*.test.mjs",
+    "prepare:local": "node scripts/prepare-local.mjs",
     "configure": "node scripts/set-endpoint.mjs"
   }
 }

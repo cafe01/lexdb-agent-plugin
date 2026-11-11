@@ -4,7 +4,7 @@ Plugin `lexdb`: conexão ao MCP remoto do LexDB e skills para pesquisar jurispru
 
 ## Prévia 0.1.0
 
-Esta versão usa um servidor descartável com dez documentos de demonstração. O destino real está em [`plugins/lexdb/.mcp.json`](plugins/lexdb/.mcp.json): um túnel HTTPS temporário. O endereço deixa de funcionar quando o túnel parar. Ainda não há domínio ou serviço de produção escolhido. O pacote não demonstra cobertura nacional.
+Esta versão usa um servidor descartável com dez documentos de demonstração. O destino real está em [`plugins/lexdb/.mcp.json`](plugins/lexdb/.mcp.json): um túnel HTTPS temporário. O endereço deixa de funcionar quando o túnel parar. Em11/11, o túnel foi parado para continuar o desenvolvimento com o perfil local descrito abaixo; o endereço da prévia não está ativo. Ainda não há domínio ou serviço de produção escolhido. O pacote não demonstra cobertura nacional.
 
 O repositório foi criado privado. Instalação por Git exige acesso a ele; instalação local funciona no checkout. Publicar o repositório e listar o plugin nos diretórios das plataformas são passos distintos.
 
@@ -57,6 +57,29 @@ O marketplace local não instala uma integração na nuvem. Enquanto o plugin n�
 Peça, por exemplo: “Pesquise no LexDB sobre [questão], começando pelo [tribunal] e considerando decisões até [data]. Leia os fundamentos dos melhores candidatos e explique por que se aplicam.”
 
 Uma resposta deve se apoiar no que o serviço efetivamente retornou e foi lido. A skill diferencia ausência de candidatos, leitura em preparação, falha de serviço e franquia esgotada. Buscas e páginas por cursor contam na conta; catálogo e leitura não contam.
+
+## Desenvolvimento local sem túnel
+
+O executor local do Codex desktop/CLI e o Claude Code podem acessar um servidor em loopback. O servidor de teste precisa estar rodando; o plugin não o instala. Um agente hospedado na nuvem precisa de um endereço alcançável por ele, mesmo quando a interface é um aplicativo de desktop.
+
+Gere o mesmo pacote com um destino exclusivo de desenvolvimento:
+
+```sh
+npm run prepare:local -- http://127.0.0.1:4692/mcp
+```
+
+O comando recria `.build/local-marketplace`, conserva as skills e gera manifestos `0.1.0-dev`. Não altera o endereço HTTPS distribuído por Git. Use a origem do servidor igual à origem dessa URL, para os metadados OAuth e cookies corresponderem.
+
+Se o marketplace Git já estiver instalado, remova primeiro **somente** o plugin e o marketplace LexDB, pois o nome é o mesmo. Depois adicione o caminho absoluto impresso pelo gerador e instale novamente:
+
+```sh
+codex plugin marketplace add /caminho/lexdb-agent-plugin/.build/local-marketplace
+codex plugin add lexdb@lexdb-agent-plugin
+claude plugin marketplace add /caminho/lexdb-agent-plugin/.build/local-marketplace
+claude plugin install lexdb@lexdb-agent-plugin
+```
+
+Abra uma nova conversa no Codex para carregar a instalação. Refaça a autorização ao trocar a origem do serviço. Após mudar skills ou manifestos, regenere o pacote e atualize a instalação pelo mecanismo do host. Não edite a cópia gerada como fonte.
 
 ## Manter e verificar o pacote
 

@@ -4,7 +4,7 @@
 
 ## Demonstrado
 
-- `npm test`: dois testes passaram, cobrindo recusa de destino inseguro e reconfiguração sem alteração em entrada inválida.
+- `npm test`: três testes passaram, cobrindo recusa de destino inseguro e reconfiguração sem alteração em entrada inválida.
 - Claude Code 2.1.246: `claude plugin validate --strict .` e `claude plugin validate --strict plugins/lexdb` passaram. Marketplace local adicionado e `lexdb@lexdb-agent-plugin` instalado no escopo do usuário. `claude plugin details` descobriu as duas skills e o MCP `lexdb`, sem hooks ou agentes auxiliares.
 - Codex CLI 0.162.1: marketplace local adicionado e `codex plugin add lexdb@lexdb-agent-plugin --json` instalou e habilitou a versão0.1.0. `plugin/read` do app-server reconheceu ambas as skills habilitadas, ícone e MCP `lexdb`. Isso demonstra resolução do pacote; não demonstra execução das ferramentas pelo modelo.
 - Distribuição Git: após o primeiro push (`71ff722`), as instalações locais e seus marketplaces foram removidos nos dois CLIs. Ambos clonaram `git@github.com:cafe01/lexdb-agent-plugin.git`, validaram o catálogo e instalaram `lexdb@lexdb-agent-plugin` novamente. Codex informou fonte Git e instalação no cache; o Claude descobriu novamente as duas skills e o MCP. A clonagem usou o acesso SSH do proprietário ao repositório privado, não acesso anônimo de cliente.
@@ -19,3 +19,11 @@
 - Uma pesquisa jurídica real conduzida pelas skills nos dois produtos, publicação em diretório, domínio/hospedagem de produção ou cobertura nacional.
 
 O túnel teve uma desconexão transitória que produziu502; reconectou e a repetição do OAuth funcionou. Um Quick Tunnel não constitui disponibilidade de produção. Logs, configuração privada e capturas ficam fora deste repositório em `.build/lexdb028/` do portfólio. A instância não contém autos privados nem acessa o banco de mineração.
+
+## Perfil local de desenvolvimento (030)
+
+Em 11/11, o gerador preservou o endpoint distribuído e gerou o marketplace em loopback com versão0.1.0-dev. Os CLIs Claude e Codex foram reinstalados a partir desse artefato. `plugin/read` do app-server Codex reconheceu a instalação habilitada, duas skills e MCP. Claude Code concluiu OAuth inteiramente em HTTP loopback e `claude mcp get plugin:lexdb:lexdb` informou Connected em `http://127.0.0.1:4692/mcp`. A configuração instalada no Codex é compartilhada com o desktop; isso não prova que uma conversa já aberta recarregou ferramentas.
+
+O teste do gerador também confirma remoção de artefatos obsoletos e rejeição de destino remoto/credenciais/query. Esse perfil não exige túnel; a prova HTTPS anterior permanece evidência separada.
+
+Após a prova local, o Quick Tunnel foi parado. O endereço HTTPS da prévia0.1.0 não está mais ativo; a instalação de desenvolvimento neste Mac usa o marketplace local gerado.
