@@ -8,6 +8,8 @@ Esta versão usa um servidor descartável com dez documentos de demonstração. 
 
 O repositório foi criado privado. Instalação por Git exige acesso a ele; instalação local funciona no checkout. Publicar o repositório e listar o plugin nos diretórios das plataformas são passos distintos.
 
+Na prova com o repositório privado, os dois CLIs receberam `git@github.com:cafe01/lexdb-agent-plugin.git` como fonte do marketplace, usando o acesso SSH do proprietário. O nome curto abaixo é o caminho de distribuição após conceder acesso adequado ou tornar o repositório público.
+
 ## O que é instalado
 
 - **`conectar-lexdb`:** autorizar a conta pelo fluxo do host, conferir o catálogo e começar a usar o acervo.
