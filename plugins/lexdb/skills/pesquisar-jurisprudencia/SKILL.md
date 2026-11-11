@@ -5,7 +5,7 @@ description: Pesquise jurisprudência brasileira pelo LexDB para uma questão ju
 
 # Pesquisar jurisprudência com o LexDB
 
-Use `catalogo`, `buscar` e `ler` do servidor LexDB identificado pelo host; o prefixo varia. Não invente ferramentas adicionais.
+Use `catalogo`, `buscar`, `ler`, `pesquisa` e `historico` do servidor LexDB identificado pelo host; o prefixo varia. Não invente ferramentas adicionais.
 
 ## Da questão ao recorte
 
@@ -13,9 +13,17 @@ Identifique a questão jurídica, o tribunal relevante, a posição processual e
 
 Chame `catalogo({})`. Cada elemento de `bases` informa tribunal, base, fonte, tipos, `data_observada` (`de`, `ate`, `significado`), `filtros_juridicos` (`naturezas`, `classes` quando habilitados) e `busca_por_processo`. Use esses valores. Os extremos não certificam cobertura contínua nem disponibilidade histórica; a data pode representar juntada, publicação, assinatura ou julgamento.
 
+## Organizar e retomar um trabalho
+
+Pesquisa é um objeto da conta, independente do chat ou plataforma. Quando for útil organizar o trabalho, crie com `pesquisa({"acao":"criar","titulo":"Título do trabalho"})` e entregue o id/url recebidos ao usuário. Para retomar, use `pesquisa({"acao":"listar"})` ou `pesquisa({"acao":"abrir","id":"UUID"})`.
+
+Leia `historico({"pesquisa":"UUID"})` antes de repetir consultas já feitas. A listagem mostra argumentos, custo e quantidade de resultados; recupere a resposta integral com `historico({"registro":"UUID do registro"})`. Histórico não reexecuta nem cobra. As listas aceitam limite/cursor e devolvem proximo_cursor. `historico({"sem_pesquisa":true})` lista consultas não agrupadas; não combine esse filtro com pesquisa.
+
+Ao buscar dentro desse trabalho, envie seu UUID no campo opcional `pesquisa`, inclusive nas continuações por cursor. Sem esse campo, a execução fica no histórico geral, sem agrupamento automático. Não crie pesquisa artificial para toda pergunta. Todos os links exigem a conta proprietária. Não há seleção, notas ou agente especializado neste contrato.
+
 ## Buscar
 
-`buscar({consulta?, filtros?, ordem?, limite?, cursor?})` aceita:
+`buscar({consulta?, filtros?, ordem?, limite?, cursor?, pesquisa?})` aceita:
 
 - `filtros.tribunais`, `bases`, `tipos`, `naturezas`, `classes`: listas de valores do catálogo. Alternativas dentro da dimensão; dimensões diferentes se somam. Não há filtro por papel do trecho.
 - `filtros.periodo: {de?, ate?}`: datas inclusivas AAAA-MM-DD pela data de referência da base.
@@ -34,7 +42,7 @@ Exemplo de forma, ajustável ao catálogo e à pergunta:
 
 Para explorar sem expressão: `{"filtros":{"tribunais":["TJES"]},"ordem":"data","limite":10}`.
 
-A resposta contém `itens`, `bases_aplicadas` e `proximo_cursor`. Confira as bases que participaram: um filtro pode restringir a pesquisa às que o suportam; nenhuma base compatível é erro de entrada, não ausência de precedentes. Catálogo parcial limita conclusões de uma busca vazia.
+A resposta contém `itens`, `bases_aplicadas`, `proximo_cursor` e `registro` com id, pesquisa (ou null), url e custo. O id de registro identifica a execução, não um documento. Uma resposta concluída, mesmo vazia, custa1; erros/recusas registrados custam0. O histórico conserva essa resposta; a leitura dos julgados continua sendo a disponível hoje. Confira as bases que participaram: um filtro pode restringir a pesquisa às que o suportam; nenhuma base compatível é erro de entrada, não ausência de precedentes. Catálogo parcial limita conclusões de uma busca vazia.
 
 Para continuar, envie `proximo_cursor` como `cursor` com todos os critérios inalterados, inclusive limite. Nulo encerra a lista. Mudar critérios começa outra busca, sem cursor.
 

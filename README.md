@@ -2,7 +2,7 @@
 
 Plugin `lexdb`: conexão ao MCP remoto do LexDB e skills para pesquisar jurisprudência brasileira, ler fundamentos e entregar referências. Claude e ChatGPT/Codex usam o mesmo conteúdo; catálogos e manifestos atendem aos respectivos formatos.
 
-## Prévia 0.2.1
+## Prévia 0.3.0
 
 Esta versão usa um servidor descartável com dez documentos de demonstração. O destino real está em [`plugins/lexdb/.mcp.json`](plugins/lexdb/.mcp.json): um túnel HTTPS temporário. O endereço deixa de funcionar quando o túnel parar. Em11/11, o túnel foi parado para continuar o desenvolvimento com o perfil local descrito abaixo; o endereço da prévia não está ativo. Ainda não há domínio ou serviço de produção escolhido. O pacote não demonstra cobertura nacional.
 
@@ -12,7 +12,7 @@ O repositório é público: qualquer pessoa pode obter o pacote e as skills pelo
 
 - **`conectar-lexdb`:** autorizar a conta pelo fluxo do host, conferir o catálogo e começar a usar o acervo.
 - **`pesquisar-jurisprudencia`:** transformar a questão em consultas, refinar o recorte, ler decisões e fundamentar com as fontes recebidas.
-- **MCP `lexdb`:** `catalogo`, `buscar` e `ler`.
+- **MCP `lexdb`:** `catalogo`, `buscar`, `ler`, `pesquisa` e `historico`.
 
 Não instala servidor, banco ou mineração no computador do cliente. A conexão usa OAuth; não há chave de API ou credencial no pacote. O plugin não assina um plano pelo usuário.
 
@@ -63,10 +63,10 @@ O executor local do Codex desktop/CLI e o Claude Code podem acessar um servidor 
 Gere o mesmo pacote com um destino exclusivo de desenvolvimento:
 
 ```sh
-npm run prepare:local -- http://127.0.0.1:4692/mcp
+npm run prepare:local -- http://127.0.0.1:4792/mcp
 ```
 
-O comando recria `.build/local-marketplace`, conserva as skills e gera manifestos `0.2.1-dev`. Não altera o endereço HTTPS distribuído por Git. Use a origem do servidor igual à origem dessa URL, para os metadados OAuth e cookies corresponderem.
+O comando recria `.build/local-marketplace`, conserva as skills e gera manifestos `0.3.0-dev`. Não altera o endereço HTTPS distribuído por Git. Use a origem do servidor igual à origem dessa URL, para os metadados OAuth e cookies corresponderem.
 
 Se o marketplace Git já estiver instalado, remova primeiro **somente** o plugin e o marketplace LexDB, pois o nome é o mesmo. Depois adicione o caminho absoluto impresso pelo gerador e instale novamente:
 
@@ -92,3 +92,7 @@ claude plugin validate --strict plugins/lexdb
 Para mudar o destino da próxima versão, use `npm run configure -- URL_HTTPS_DO_MCP`. O comando exige `/mcp`, rejeita credenciais, query, fragmento, HTTP e loopback. Ele muda somente a declaração compartilhada do MCP; confira o endpoint antes de distribuir a atualização. Um túnel temporário pertence a uma prévia, não a uma versão de produção.
 
 Leia [VALIDATION.md](VALIDATION.md) para distinguir formato, instalação, autorização e chamadas efetivamente demonstradas. A documentação atual do produto e o design do servidor ficam no repositório privado do portfólio, em `LexDB/`.
+
+## Pesquisas e histórico
+
+A032 permite criar/listar/retomar pesquisas privadas da conta, associar consultas opcionalmente e recuperar respostas originais sem reexecutar a busca. O agente fornece o link da pesquisa para acompanhar consultas concluídas e cota. Sem associação, a execução fica no histórico geral. Uma nova chamada de buscar, inclusive página por cursor ou resultado vazio, conta na cota; pesquisa/historico são gratuitos. Não há seleção ou notas nesta versão.

@@ -47,3 +47,9 @@ Runtime Codex em sessão efêmera autenticada na4492 reconheceu somente as três
 ## Nome da expressão — 0.2.1
 
 O parâmetro lexical é consulta, substituindo texto por direção de Café em11/11. Ambas as skills foram alinhadas. Três testes, validação da skill de pesquisa e marketplace passaram; versão0.2.1-dev reinstalada no Codex e Claude Code sem reiniciar o aplicativo. O runtime Codex separado verificou consulta no schema e executou busca, cursor, referência e leitura na4492.
+
+## Pesquisa persistente — 0.3.0
+
+Acrescentadas orientações de pesquisa (criar/listar/abrir), historico (lista/detalhe), link privado e associação opcional em buscar. Recuperar registros não reexecuta nem cobra; seleção/notas continuam fora do contrato. Três testes do pacote, ambas as skills e marketplace estrito passaram. Perfil0.3.0-dev gerado para4792 e instalado no Codex/Claude Code; skills no cache Codex são idênticas à fonte.
+
+Runtime Codex efêmero autenticado com lexdb:research reconheceu as cinco ferramentas e recuperou quatro registros da pesquisa de teste sem débito. Prova SDK/browser criou pesquisa, executou duas páginas e uma consulta sem associação e retomou com outro cliente; snapshots e cota conferidos. A atualização do feed/aviso foi verificada em desktop. Revisão visual móvel da aplicação permanece pendente por falha do controle de navegador; ver evidências da032 no portfólio privado. Nenhuma pesquisa jurídica conduzida pelo modelo foi alegada. O endpoint público de produção continua pendente; o perfil local funciona sem túnel.
