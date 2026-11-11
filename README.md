@@ -2,7 +2,7 @@
 
 Plugin `lexdb`: conexão ao MCP remoto do LexDB e skills para pesquisar jurisprudência brasileira, ler fundamentos e entregar referências. Claude e ChatGPT/Codex usam o mesmo conteúdo; catálogos e manifestos atendem aos respectivos formatos.
 
-## Prévia 0.1.0
+## Prévia 0.1.1
 
 Esta versão usa um servidor descartável com dez documentos de demonstração. O destino real está em [`plugins/lexdb/.mcp.json`](plugins/lexdb/.mcp.json): um túnel HTTPS temporário. O endereço deixa de funcionar quando o túnel parar. Em11/11, o túnel foi parado para continuar o desenvolvimento com o perfil local descrito abaixo; o endereço da prévia não está ativo. Ainda não há domínio ou serviço de produção escolhido. O pacote não demonstra cobertura nacional.
 
@@ -66,7 +66,7 @@ Gere o mesmo pacote com um destino exclusivo de desenvolvimento:
 npm run prepare:local -- http://127.0.0.1:4692/mcp
 ```
 
-O comando recria `.build/local-marketplace`, conserva as skills e gera manifestos `0.1.0-dev`. Não altera o endereço HTTPS distribuído por Git. Use a origem do servidor igual à origem dessa URL, para os metadados OAuth e cookies corresponderem.
+O comando recria `.build/local-marketplace`, conserva as skills e gera manifestos `0.1.1-dev`. Não altera o endereço HTTPS distribuído por Git. Use a origem do servidor igual à origem dessa URL, para os metadados OAuth e cookies corresponderem.
 
 Se o marketplace Git já estiver instalado, remova primeiro **somente** o plugin e o marketplace LexDB, pois o nome é o mesmo. Depois adicione o caminho absoluto impresso pelo gerador e instale novamente:
 

@@ -31,3 +31,9 @@ Após a prova local, o Quick Tunnel foi parado. O endereço HTTPS da prévia0.1.
 ## Acesso público ao pacote
 
 Em11/11/2026, por orientação explícita de Café, o repositório passou a público. O conteúdo e o histórico versionados foram revisados antes da mudança: pacote, skills e documentação, sem credenciais ou dados privados de usuários. GitHub confirmou PUBLIC; a consulta HTTPS de HEAD sem configuração global ou helper de credenciais funcionou. Isso permite obter o pacote sem acesso privado, mas não demonstra disponibilidade do MCP, que permanece sem endereço de produção.
+
+## Alinhamento da pesquisa — 0.1.1
+
+As skills passaram a detalhar catálogo por base, significado das datas observadas, bases aplicadas, exploração sem texto, defaults de ordem/limite, exclusão mútua das referências e término da paginação. A conexão reconhece o schema antigo (offset/filtros escalares) como desatualizado. Ambas passaram no quick_validate.py; três testes do pacote e validação estrita do marketplace passaram.
+
+A versão local0.1.1-dev foi regenerada e instalada nos CLIs Claude e Codex com destino4492, acervo TJES de desenvolvimento. O app-server reconheceu duas skills habilitadas e MCP. Em sessão efêmera de verificação, o runtime Codex autenticado executou catálogo, busca sem texto, texto/refinamento, referência exata, segunda página sem duplicação e leitura ready com fonte (14.465 caracteres). Isso verifica chamadas do runtime, sem alegar avaliação de uma pesquisa jurídica conduzida pelo modelo. A conversa previamente aberta conserva ferramentas em memória até recarga do host.

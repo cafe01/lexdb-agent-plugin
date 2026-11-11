@@ -11,7 +11,7 @@ Use as ferramentas deste servidor LexDB, identificadas pelo host; não suponha u
 
 Identifique a questão que a jurisprudência precisa resolver, o tribunal relevante, a posição processual e eventual data de corte. Parta do encargo e do material que o usuário trouxe. Se faltar um dado que muda a pesquisa, pergunte; não exija um processo completo para uma pergunta jurídica autônoma. Envie à busca somente termos e filtros necessários, sem reproduzir autos ou dados pessoais desnecessários.
 
-Consulte `list_jurisprudence_filters({})` para conhecer as bases, os períodos observados e os filtros disponíveis. Um catálogo parcial limita o que uma busca vazia permite concluir. Não confunda uma base ausente com inexistência de jurisprudência do tribunal.
+Consulte `list_jurisprudence_filters({})` para conhecer as bases, os períodos observados e os filtros disponíveis. Cada base informa tribunal, fonte, tipos, `data_observada` (extremos e significado), `filtros_juridicos` e suporte a `processo`. Os extremos não certificam cobertura contínua nem disponibilidade histórica. Confira `bases_aplicadas` em cada resposta: um filtro pode restringir a pesquisa às bases que o suportam. Se nenhuma base aceita a combinação, a entrada é inválida, não uma busca sem candidatos. Um catálogo parcial limita o que uma busca vazia permite concluir. Não confunda uma base ausente com inexistência de jurisprudência do tribunal.
 
 Comece por termos que admitam as formulações pertinentes à questão. Refine com o conceito decisivo, matéria e classe quando o catálogo os habilitar. Explore decisões contrárias e fundamentos que mudem o resultado; depois amplie o recorte quando isso servir à pergunta. Não aplique uma sequência fixa de chamadas nem execute uma lista de pesquisas sem examinar os resultados.
 
@@ -23,8 +23,9 @@ Comece por termos que admitam as formulações pertinentes à questão. Refine c
 - Datas são inclusivas, em `AAAA-MM-DD`, pela data de referência da fonte. Ela não é necessariamente a data do julgamento.
 - `q` combina termos com E no mesmo bloco. `OR` admite alternativas; aspas exigem ordem e proximidade da expressão; parênteses agrupam; hífen exclui termo. A normalização trata português, acentos e flexões, sem garantir identidade literal.
 - Exemplo de forma: `{"q":"(usura OR agiotagem) \"ônus da prova\"","tribunal":["TJES"],"limit":10}`. Ajuste o recorte à pergunta; o exemplo não impõe tema ou tribunal.
-- `ordem` é `relevancia` ou `data`. `limit` vai de 1 a 100. Use `next_cursor` para continuar com os mesmos critérios; mudar termos, filtros, ordem ou limite inicia outra consulta.
-- Para um ato conhecido, combine `ref_base` e `ref_id`. Para um processo, use `processo`; ele pode ter vários atos. Não use um ID nativo no lugar do UUID de leitura.
+- `q` é opcional: omita para explorar por filtros, período ou referência, mas informe ao menos um desses critérios. Exemplo: `{"tribunal":["TJES"],"ordem":"data","limit":10}`. Não use uma chamada vazia.
+- `ordem` é `relevancia` (exige texto; padrão com `q`) ou `data` (padrão sem texto). `limit` vai de 1 a 100, padrão 20. Cursor nulo encerra a lista. Use `next_cursor` como `cursor` para continuar com os mesmos critérios; mudar termos, filtros, ordem ou limite inicia outra consulta.
+- Para um ato conhecido, combine `ref_base` e `ref_id`. Para um processo, use `processo` com CNJ, com ou sem pontuação, somente nas bases que oferecem essa capacidade; ele pode ter vários atos. Não combine `processo` com a referência nativa. Não use um ID nativo no lugar do UUID de leitura.
 
 Uma busca retorna documentos em `items`, as bases aplicadas e `next_cursor`. O trecho ajuda a escolher candidatos. O papel do trecho e a posição no resultado não certificam que o tribunal acolheu a passagem ou que ela é a decisão mais forte para o caso.
 

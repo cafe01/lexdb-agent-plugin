@@ -1,8 +1,10 @@
 {
   "name": "lexdb",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Jurisprudência brasileira para pesquisar, ler e fundamentar com fontes do LexDB.",
-  "author": { "name": "Café" },
+  "author": {
+    "name": "Café"
+  },
   "repository": "https://github.com/cafe01/lexdb-agent-plugin",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
