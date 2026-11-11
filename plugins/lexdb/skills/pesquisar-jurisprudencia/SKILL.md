@@ -15,24 +15,24 @@ Chame `catalogo({})`. Cada elemento de `bases` informa tribunal, base, fonte, ti
 
 ## Buscar
 
-`buscar({texto?, filtros?, ordem?, limite?, cursor?})` aceita:
+`buscar({consulta?, filtros?, ordem?, limite?, cursor?})` aceita:
 
 - `filtros.tribunais`, `bases`, `tipos`, `naturezas`, `classes`: listas de valores do catálogo. Alternativas dentro da dimensão; dimensões diferentes se somam. Não há filtro por papel do trecho.
 - `filtros.periodo: {de?, ate?}`: datas inclusivas AAAA-MM-DD pela data de referência da base.
 - `filtros.referencia: {processo}`: número CNJ, com ou sem pontuação, nas bases que admitem esse modo; um processo pode ter vários atos.
 - Ou `filtros.referencia: {base, id_nativo}`: ato nativo exato. Não combine as duas modalidades. O ID nativo não é o UUID de leitura.
-- `texto`: expressão lexical de até300 caracteres. E implícito exige termos no mesmo bloco; `OR` admite alternativas; aspas exigem ordem/proximidade; parênteses agrupam e hífen exclui. A normalização trata acentos e flexões, sem garantir grafia literal. Exija ao menos um termo positivo pesquisável.
-- Texto é opcional: omita para percorrer filtros, período ou referência por data. Informe ao menos um critério; uma chamada vazia é inválida.
-- `ordem`: `relevancia` exige texto e é seu padrão; sem texto, o padrão é `data`.
+- `consulta`: expressão lexical de até300 caracteres. E implícito exige termos no mesmo bloco; `OR` admite alternativas; aspas exigem ordem/proximidade; parênteses agrupam e hífen exclui. A normalização trata acentos e flexões, sem garantir grafia literal. Exija ao menos um termo positivo pesquisável.
+- A consulta é opcional: omita para percorrer filtros, período ou referência por data. Informe ao menos um critério; uma chamada vazia é inválida.
+- `ordem`: `relevancia` exige consulta e é seu padrão; sem expressão, o padrão é `data`.
 - `limite`: de1 a100, padrão20.
 
 Exemplo de forma, ajustável ao catálogo e à pergunta:
 
 ```json
-{"texto":"(usura OR agiotagem) \"ônus da prova\"","filtros":{"tribunais":["TJES"],"naturezas":["cível"]},"limite":10}
+{"consulta":"(usura OR agiotagem) \"ônus da prova\"","filtros":{"tribunais":["TJES"],"naturezas":["cível"]},"limite":10}
 ```
 
-Para explorar sem texto: `{"filtros":{"tribunais":["TJES"]},"ordem":"data","limite":10}`.
+Para explorar sem expressão: `{"filtros":{"tribunais":["TJES"]},"ordem":"data","limite":10}`.
 
 A resposta contém `itens`, `bases_aplicadas` e `proximo_cursor`. Confira as bases que participaram: um filtro pode restringir a pesquisa às que o suportam; nenhuma base compatível é erro de entrada, não ausência de precedentes. Catálogo parcial limita conclusões de uma busca vazia.
 

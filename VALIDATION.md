@@ -43,3 +43,7 @@ A versão local0.1.1-dev foi regenerada e instalada nos CLIs Claude e Codex com 
 Por direção de Café em11/11/2026, o MCP passa a catalogo/buscar/ler, com texto/filtros/ordem/limite/cursor e respostas itens/proximo_cursor/estado/metadados/fonte/conteudo. As duas skills e o README foram alinhados sem aliases. Três testes do pacote, validadores das skills e marketplace estrito passaram. A versão local0.2.0-dev foi instalada no Codex e Claude Code; o app-server confirmou as skills habilitadas.
 
 Runtime Codex em sessão efêmera autenticada na4492 reconheceu somente as três ferramentas novas e executou catálogo, busca com/sem texto, cursor, referência e leitura pronta com14.183 caracteres. A prova não é avaliação de pesquisa jurídica pelo modelo. A conversa já aberta exige recarga do aplicativo. O perfil local funciona; a publicação deste código não ativa um serviço MCP público de produção.
+
+## Nome da expressão — 0.2.1
+
+O parâmetro lexical é consulta, substituindo texto por direção de Café em11/11. Ambas as skills foram alinhadas. Três testes, validação da skill de pesquisa e marketplace passaram; versão0.2.1-dev reinstalada no Codex e Claude Code sem reiniciar o aplicativo. O runtime Codex separado verificou consulta no schema e executou busca, cursor, referência e leitura na4492.
