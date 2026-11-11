@@ -27,3 +27,7 @@ Em 11/11, o gerador preservou o endpoint distribuído e gerou o marketplace em l
 O teste do gerador também confirma remoção de artefatos obsoletos e rejeição de destino remoto/credenciais/query. Esse perfil não exige túnel; a prova HTTPS anterior permanece evidência separada.
 
 Após a prova local, o Quick Tunnel foi parado. O endereço HTTPS da prévia0.1.0 não está mais ativo; a instalação de desenvolvimento neste Mac usa o marketplace local gerado.
+
+## Acesso público ao pacote
+
+Em11/11/2026, por orientação explícita de Café, o repositório passou a público. O conteúdo e o histórico versionados foram revisados antes da mudança: pacote, skills e documentação, sem credenciais ou dados privados de usuários. GitHub confirmou PUBLIC; a consulta HTTPS de HEAD sem configuração global ou helper de credenciais funcionou. Isso permite obter o pacote sem acesso privado, mas não demonstra disponibilidade do MCP, que permanece sem endereço de produção.

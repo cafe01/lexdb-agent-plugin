@@ -6,9 +6,7 @@ Plugin `lexdb`: conexão ao MCP remoto do LexDB e skills para pesquisar jurispru
 
 Esta versão usa um servidor descartável com dez documentos de demonstração. O destino real está em [`plugins/lexdb/.mcp.json`](plugins/lexdb/.mcp.json): um túnel HTTPS temporário. O endereço deixa de funcionar quando o túnel parar. Em11/11, o túnel foi parado para continuar o desenvolvimento com o perfil local descrito abaixo; o endereço da prévia não está ativo. Ainda não há domínio ou serviço de produção escolhido. O pacote não demonstra cobertura nacional.
 
-O repositório foi criado privado. Instalação por Git exige acesso a ele; instalação local funciona no checkout. Publicar o repositório e listar o plugin nos diretórios das plataformas são passos distintos.
-
-Na prova com o repositório privado, os dois CLIs receberam `git@github.com:cafe01/lexdb-agent-plugin.git` como fonte do marketplace, usando o acesso SSH do proprietário. O nome curto abaixo é o caminho de distribuição após conceder acesso adequado ou tornar o repositório público.
+O repositório é público: qualquer pessoa pode obter o pacote e as skills pelo marketplace `cafe01/lexdb-agent-plugin`, sem autorização de acesso ao GitHub e sem assinatura LexDB. A conta gratuita dá direito a 100 buscas por mês quando o serviço estiver disponível. Nesta prévia, o serviço público ainda depende de hospedagem e endereço definitivos; tornar o código público não ativa o MCP desativado acima. Listagem nos diretórios das plataformas é um passo separado.
 
 ## O que é instalado
 
@@ -20,7 +18,7 @@ Não instala servidor, banco ou mineração no computador do cliente. A conexão
 
 ## Instalar no Claude
 
-No Claude web ou desktop, em **Customize → Plugins → Add → Add marketplace**, escolha adicionar por repositório e informe `cafe01/lexdb-agent-plugin`. Abra o marketplace, instale `lexdb` e autorize a conta LexDB quando solicitado. O acesso por repositório privado depende do que a conta/plataforma permite; este caminho hospedado precisa ser exercitado antes da distribuição pública.
+No Claude web ou desktop, em **Customize → Plugins → Add → Add marketplace**, escolha adicionar por repositório e informe `cafe01/lexdb-agent-plugin`. Abra o marketplace, instale `lexdb` e autorize a conta LexDB quando solicitado. O acesso ao recurso depende da conta/plataforma; a instalação nesse cliente hospedado ainda precisa ser exercitada.
 
 No Claude Code:
 
